@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Around The World</title>
+		<link rel="stylesheet" href="around-the-world.1.0.0.css">
+		<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+      <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+      <script src="around-the-world.1.0.0.js"></script>
+      <script src="../node_modules/angular-animate/angular-animate.min.js"></script>
+	</head>
+		<body ng-app='myApp'>
+			<div class="container" ng-controller="ctrl as vm">
+				<div class="message-container" ng-hide="bool">
+						<h1>{{vm.heading}}</h1>
+						<hr />
+						<h2>{{vm.subheading}}</h2>
+					<form class="location-input">
+						<input class="text" type="text" placeholder="Type in a location" size="20" name="query">
+						<input  class="button" type="submit" ng-click="bool=!bool" value="GO!">
+				</form>
+
+				</div>
+					<div class="header"></div>
+					<div class="footer">
+						<h1>{{vm.footer}}</h1>
+
+					</div>
+				</div>					
+		</body>
+</html>
