@@ -2,6 +2,8 @@ let angular = require('angular');
 let $ = require('jquery');
 let ngAnimate = require('angular-animate');
 let ngRoute = require('angular-route');
+// let xml = require('angular-xml');
+//let x2js = require('x2js');
 
 let app = angular.module('myApp', ['ngAnimate','ngRoute']);
 
@@ -19,7 +21,12 @@ let app = angular.module('myApp', ['ngAnimate','ngRoute']);
 
 });*/
 
+// app.config(function ($httpProvider) {
+//     $httpProvider.interceptors.push('xmlHttpInterceptor');
+//   })
+
 app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby){
+	
   
  	this.heading = "The World Is Yours";
  	this.subheading = "Where would you like to go?";
@@ -38,25 +45,23 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby){
  		 else{
  		 	this.hideLocation = true;
  		 	let ctrl = this;
- 		 	$timeout(function(){ctrl.hideHobby = false;} ,1000)
+ 		 	
+ 		 	$timeout(function(){ctrl.hideHobby = false;}, 1000)
+
  			console.log(locTag); 
- 			GoogleLocation.getLocation(locTag, function(response){
+
+ 			GoogleLocation.getLocation(locTag, function(response) {
 
 				ctrl.location = response;
 				ctrl.apiLocation = response.data.predictions[0].description;
 				console.log(ctrl.apiLocation);
 				
-				return ctrl.apiLocation;
-
  			});
  		}
 
  	}
 
-
-
-
- 	this.getHobData = function(apiLocation){
+ 	this.getHobData = function(){
  		 
  		 let hobTag = $('#query2').val();
  			
@@ -66,11 +71,12 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby){
  		 }
  		 else{
  		 	this.hideHobby = true;
+ 		 	let ctrl2 = this;
  			
- 			YelpHobby.getHobby(hobTag, apiLocation, function(output){
- 				let ctrl2 = this;
+ 			YelpHobby.getHobby(hobTag, this.apiLocation, function(output){
+ 				
  				ctrl2.destination = output;
- 				console.log(output);
+ 				console.log(ctrl2.destination);
 
  			});
  			console.log(hobTag); 
@@ -78,60 +84,58 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby){
 	};
 })
  
-app.service("GoogleLocation", function($http){
-
-	this.getLocation = function(tag, callBack){
+app.service("GoogleLocation", function($http) {
+	this.getLocation = function(tag, callBack) {
 		let request = {
 			input: tag,
 			key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY',
-			//format: 'jsonp'
 		};
-
+	
+		//let url = "https://maps.googleapis.com/maps/api/place/autocomplete/jsonp?callback=JSON_CALLBACK&input=" + tag + "&key=AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY" ;
 		$http({
 			url: "https://maps.googleapis.com/maps/api/place/autocomplete/json?",
 			params: request
 		})
-
-		.then(function(response){
-			callBack(response);
-			console.log(response);
+			.then(function(response){
+				callBack(response);
+				console.log(response);
 		})	
 	}
 });
 
 app.service("YelpHobby", function($http){
 
-	this.getHobby = function(tag, apiLocation, callBack){
+	this.getHobby = function(hobby, location, callback){
 
-		let request = {
+		let method = "GET";
+		let url = "https://api.yelp.com/v2/search";
+
+		let params = {
+			callback: "angular.callbacks._0",
 			oauth_consumer_key: "HRokaNQY63hf_M_pVay83Q",
 			oauth_token: "tUvHggPMn5epOhWeqG5ILVRYcl9DgTiu",
 			oauth_signature_method: "HMAC-SHA1",
-			oauth_signature: "KxVMZbqVXvuTTHY-4MCX1HOdJzw",
 			oauth_timestamp: Math.floor(new Date().getTime()/1000),
 			oauth_nonce: "PLAINTEXT",
-			term: tag,
-			location: "texas",
+			term: hobby,
+			location: location
 		};
+	
+		let consumerSecret = 'DcRCyGutJxmDNqjy5Cxvdbg7itE';
+		let tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
 
-		$http({
-			url: "https://api.yelp.com/v2/search?",
-			params: request
-		})
+		let encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, {encodeSignature: false});
 
-		.then(function(output){
-			callBack(output);
-			console.log(output);
-		})
-	}
+		params["oauth_signature"] = encodedSignature;
+			
+		$http.jsonp(url, {params: params}).success(callback);	
+		}
 
-});
+	});
+
+
 
 	
-// Consumer Key	HRokaNQY63hf_M_pVay83Q
-// Consumer Secret	DcRCyGutJxmDNqjy5Cxvdbg7itE
-// Token	Q2mzAU1qpqURrJ5F_u0wzi4ZMQWEzVVl
-// Token Secret	YL6uzoXHWE8Am239cWQ77OZLHVU
 
 
 // Consumer Key	HRokaNQY63hf_M_pVay83Q

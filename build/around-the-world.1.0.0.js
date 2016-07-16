@@ -50,6 +50,8 @@
 	var $ = __webpack_require__(3);
 	var ngAnimate = __webpack_require__(4);
 	var ngRoute = __webpack_require__(6);
+	// let xml = require('angular-xml');
+	//let x2js = require('x2js');
 	
 	var app = angular.module('myApp', ['ngAnimate', 'ngRoute']);
 	
@@ -66,6 +68,10 @@
 	
 	
 	});*/
+	
+	// app.config(function ($httpProvider) {
+	//     $httpProvider.interceptors.push('xmlHttpInterceptor');
+	//   })
 	
 	app.controller('ctrl', function ($timeout, GoogleLocation, YelpHobby) {
 	
@@ -87,23 +93,25 @@
 				(function () {
 					_this.hideLocation = true;
 					var ctrl = _this;
+	
 					$timeout(function () {
 						ctrl.hideHobby = false;
 					}, 1000);
+	
 					console.log(locTag);
+	
 					GoogleLocation.getLocation(locTag, function (response) {
 	
 						ctrl.location = response;
 						ctrl.apiLocation = response.data.predictions[0].description;
 						console.log(ctrl.apiLocation);
-	
-						return ctrl.apiLocation;
 					});
 				})();
 			}
 		};
 	
-		this.getHobData = function (apiLocation) {
+		this.getHobData = function () {
+			var _this2 = this;
 	
 			var hobTag = $('#query2').val();
 	
@@ -111,26 +119,29 @@
 				alert('Please enter a hobby');
 				return;
 			} else {
-				this.hideHobby = true;
+				(function () {
+					_this2.hideHobby = true;
+					var ctrl2 = _this2;
 	
-				YelpHobby.getHobby(hobTag, apiLocation, function (output) {
-					var ctrl2 = this;
-					ctrl2.destination = output;
-					console.log(output);
-				});
-				console.log(hobTag);
+					YelpHobby.getHobby(hobTag, _this2.apiLocation, function (output) {
+	
+						ctrl2.destination = output;
+						console.log(ctrl2.destination);
+					});
+					console.log(hobTag);
+				})();
 			}
 		};
 	});
 	
 	app.service("GoogleLocation", function ($http) {
-	
 		this.getLocation = function (tag, callBack) {
 			var request = {
 				input: tag,
 				key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY'
 			};
 	
+			//let url = "https://maps.googleapis.com/maps/api/place/autocomplete/jsonp?callback=JSON_CALLBACK&input=" + tag + "&key=AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY" ;
 			$http({
 				url: "https://maps.googleapis.com/maps/api/place/autocomplete/json?",
 				params: request
@@ -143,34 +154,33 @@
 	
 	app.service("YelpHobby", function ($http) {
 	
-		this.getHobby = function (tag, apiLocation, callBack) {
+		this.getHobby = function (hobby, location, callback) {
 	
-			var request = {
+			var method = "GET";
+			var url = "https://api.yelp.com/v2/search";
+	
+			var params = {
+				callback: "angular.callbacks._0",
 				oauth_consumer_key: "HRokaNQY63hf_M_pVay83Q",
 				oauth_token: "tUvHggPMn5epOhWeqG5ILVRYcl9DgTiu",
 				oauth_signature_method: "HMAC-SHA1",
-				oauth_signature: "KxVMZbqVXvuTTHY-4MCX1HOdJzw",
 				oauth_timestamp: Math.floor(new Date().getTime() / 1000),
 				oauth_nonce: "PLAINTEXT",
-				term: tag,
-				location: "texas"
+				term: hobby,
+				location: location
 			};
 	
-			$http({
-				url: "https://api.yelp.com/v2/search?",
-				params: request
-			}).then(function (output) {
-				callBack(output);
-				console.log(output);
-			});
+			var consumerSecret = 'DcRCyGutJxmDNqjy5Cxvdbg7itE';
+			var tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
+	
+			var encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, { encodeSignature: false });
+	
+			params["oauth_signature"] = encodedSignature;
+	
+			$http.jsonp(url, { params: params }).success(callback);
 		};
 	});
 	
-	// Consumer Key	HRokaNQY63hf_M_pVay83Q
-	// Consumer Secret	DcRCyGutJxmDNqjy5Cxvdbg7itE
-	// Token	Q2mzAU1qpqURrJ5F_u0wzi4ZMQWEzVVl
-	// Token Secret	YL6uzoXHWE8Am239cWQ77OZLHVU
-
 	// Consumer Key	HRokaNQY63hf_M_pVay83Q
 	// Consumer Secret	DcRCyGutJxmDNqjy5Cxvdbg7itE
 	// Token	tUvHggPMn5epOhWeqG5ILVRYcl9DgTiu
