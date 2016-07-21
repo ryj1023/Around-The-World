@@ -46,41 +46,39 @@
 
 	'use strict';
 	
+	//dependencies
+	
 	var angular = __webpack_require__(1);
 	var $ = __webpack_require__(3);
 	var ngAnimate = __webpack_require__(4);
 	var ngRoute = __webpack_require__(6);
-	// let xml = require('angular-xml');
-	//let x2js = require('x2js');
 	
 	var app = angular.module('myApp', ['ngAnimate', 'ngRoute']);
 	
-	/*app.config(function($routeProvider){ 
+	app.config(function ($routeProvider, $locationProvider) {
 		$routeProvider.when('/', {
-			template: 'Welcome!'
-		})
-		.when('/anotherPage', {
-			template: 'Welcome, again!'
-		})
-		.otherwise({
+			templateUrl: 'home.html'
+		}).otherwise({
 			redirectTo: '/'
 		});
 	
+		$locationProvider.html5Mode(true);
+	});
 	
-	});*/
+	//angular display and google api callback function
 	
-	// app.config(function ($httpProvider) {
-	//     $httpProvider.interceptors.push('xmlHttpInterceptor');
-	//   })
-	
-	app.controller('ctrl', function ($timeout, GoogleLocation, YelpHobby) {
+	app.controller('ctrl', function ($timeout, GoogleLocation, YelpHobby, $location) {
 	
 		this.heading = "The World Is Yours";
 		this.subheading = "Where would you like to go?";
 		this.subheading2 = "What's one of your favorite hobbies?";
+		this.resultsHeading = "Here are some of the best locations";
 		this.footer = "Check out some of the best locations based on your interests";
 		this.hideLocation = false;
 		this.hideHobby = true;
+		this.showResults = false;
+	
+		//get location from Google API
 	
 		this.getLocData = function () {
 			var _this = this;
@@ -92,23 +90,22 @@
 			} else {
 				(function () {
 					_this.hideLocation = true;
+	
 					var ctrl = _this;
 	
 					$timeout(function () {
 						ctrl.hideHobby = false;
 					}, 1000);
 	
-					console.log(locTag);
-	
 					GoogleLocation.getLocation(locTag, function (response) {
-	
 						ctrl.location = response;
 						ctrl.apiLocation = response.data.predictions[0].description;
-						console.log(ctrl.apiLocation);
 					});
 				})();
 			}
 		};
+	
+		//get hobby input from Yelp API
 	
 		this.getHobData = function () {
 			var _this2 = this;
@@ -122,35 +119,59 @@
 				(function () {
 					_this2.hideHobby = true;
 					var ctrl2 = _this2;
+					$timeout(function () {
+						ctrl2.showResults = true;
+					}, 1000);
 	
 					YelpHobby.getHobby(hobTag, _this2.apiLocation, function (output) {
-	
+						console.log(output);
 						ctrl2.destination = output;
-						console.log(ctrl2.destination);
+						ctrl2.placesArray = output.businesses;
+						console.log($scope.placesArray);
 					});
-					console.log(hobTag);
 				})();
 			}
 		};
+	
+		//clear results and forms
+	
+		this.newSearch = function (locTag, hobTag, placesArray, addressArray) {
+			var ctrl3 = this;
+			ctrl3.showResults = false;
+			ctrl3.hideHobby = true;
+			$timeout(function () {
+				ctrl3.hideLocation = false;
+			}, 700);
+			hobTag = $('#query2').val('');
+			locTag = $('#query').val('');
+			ctrl3.placesArray = null;
+			ctrl3.addressArray = null;
+		};
 	});
+	
+	//Google API service
 	
 	app.service("GoogleLocation", function ($http) {
 		this.getLocation = function (tag, callBack) {
+	
 			var request = {
 				input: tag,
 				key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY'
 			};
 	
-			//let url = "https://maps.googleapis.com/maps/api/place/autocomplete/jsonp?callback=JSON_CALLBACK&input=" + tag + "&key=AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY" ;
 			$http({
-				url: "https://maps.googleapis.com/maps/api/place/autocomplete/json?",
+				method: "GET",
+				url: "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=" + tag + "&key=AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY",
 				params: request
 			}).then(function (response) {
+	
+				var x2js = new X2JS();
 				callBack(response);
-				console.log(response);
 			});
 		};
 	});
+	
+	//Yelp API service
 	
 	app.service("YelpHobby", function ($http) {
 	
@@ -167,24 +188,19 @@
 				oauth_timestamp: Math.floor(new Date().getTime() / 1000),
 				oauth_nonce: "PLAINTEXT",
 				term: hobby,
-				location: location
+				location: location,
+				limit: 10
 			};
+	
+			//oauth signiture info
 	
 			var consumerSecret = 'DcRCyGutJxmDNqjy5Cxvdbg7itE';
 			var tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
-	
 			var encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, { encodeSignature: false });
-	
 			params["oauth_signature"] = encodedSignature;
-	
 			$http.jsonp(url, { params: params }).success(callback);
 		};
 	});
-	
-	// Consumer Key	HRokaNQY63hf_M_pVay83Q
-	// Consumer Secret	DcRCyGutJxmDNqjy5Cxvdbg7itE
-	// Token	tUvHggPMn5epOhWeqG5ILVRYcl9DgTiu
-	//  Token Secret	KxVMZbqVXvuTTHY-4MCX1HOdJzw
 
 /***/ },
 /* 1 */
