@@ -79,7 +79,6 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location){
  				console.log(output);
  				ctrl2.destination = output;
  				ctrl2.placesArray = output.businesses;
- 				console.log($scope.placesArray);
 
  			});
  			
