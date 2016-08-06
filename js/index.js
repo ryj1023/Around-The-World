@@ -37,7 +37,8 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location){
 
  	this.getLocData = function(){
  		 
- 		 let locTag = $('#query').val();
+ 		let locTag = $('#query').val();
+ 			
  		 if(locTag  == ""){
  		 	alert('Please enter a location');
  		 	return;
@@ -79,8 +80,6 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location){
  				console.log(output);
  				ctrl2.destination = output;
  				ctrl2.placesArray = output.businesses;
- 				console.log($scope.placesArray);
-
  			});
  			
  		}

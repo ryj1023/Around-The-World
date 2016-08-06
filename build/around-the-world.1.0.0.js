@@ -84,6 +84,7 @@
 			var _this = this;
 	
 			var locTag = $('#query').val();
+	
 			if (locTag == "") {
 				alert('Please enter a location');
 				return;
@@ -127,7 +128,6 @@
 						console.log(output);
 						ctrl2.destination = output;
 						ctrl2.placesArray = output.businesses;
-						console.log($scope.placesArray);
 					});
 				})();
 			}

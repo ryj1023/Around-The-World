@@ -27,8 +27,8 @@
 						<p class="address" ng-repeat="address in places.location.display_address">{{address}}</p>		
 						<p class="description">{{places.snippet_text}}</p>
 						<br />	
-						<img class="rating" src="{{places.rating_img_url_large}}"{{places.rating_img_url_large}}>
-						<img class="images" src=" {{places.image_url}} " {{places.image_url}}>
+						<img class="rating" ng-src="{{places.rating_img_url_large}}"{{places.rating_img_url_large}}>
+						<img class="images" ng-src=" {{places.image_url}} " {{places.image_url}}>
 					</div>
 					<a class="new-search" href='build/'>search again</a>					
 				</div>
