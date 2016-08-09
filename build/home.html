@@ -22,6 +22,7 @@
 			
 				<div class="results" ng-show="vm.showResults">
 						<h2>{{vm.resultsHeading}}</h2>
+						<a class="new-search" ng-click=vm.getPath()>New Search</a>
 					<div class="row" ng-repeat="places in vm.placesArray">
 						<a class="links" href={{places.url}} target="_blank">{{places.name}}</a>
 						<p class="address" ng-repeat="address in places.location.display_address">{{address}}</p>		
@@ -29,8 +30,7 @@
 						<br />	
 						<img class="rating" ng-src="{{places.rating_img_url_large}}"{{places.rating_img_url_large}}>
 						<img class="images" ng-src=" {{places.image_url}} " {{places.image_url}}>
-					</div>
-					<a class="new-search" href='build/'>search again</a>					
+					</div>					
 				</div>
 					<div class="header"></div>
 						<div class="footer">
