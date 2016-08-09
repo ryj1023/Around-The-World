@@ -52,7 +52,6 @@
 	var $ = __webpack_require__(3);
 	var ngAnimate = __webpack_require__(4);
 	var ngRoute = __webpack_require__(6);
-	
 	var app = angular.module('myApp', ['ngAnimate', 'ngRoute']);
 	
 	app.config(function ($routeProvider, $locationProvider) {

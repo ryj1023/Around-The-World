@@ -4,8 +4,6 @@ let angular = require('angular');
 let $ = require('jquery');
 let ngAnimate = require('angular-animate');
 let ngRoute = require('angular-route');
-
-
 let app = angular.module('myApp', ['ngAnimate','ngRoute']);
 
 app.config(function($routeProvider, $locationProvider){ 
