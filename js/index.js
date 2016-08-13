@@ -30,6 +30,10 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location){
  	this.hideLocation = false;
  	this.hideHobby = true;
  	this.showResults = false;
+ 	this.getPath = function(){
+
+ 		location.reload();
+ 	}
 
  	//get location from Google API
 
