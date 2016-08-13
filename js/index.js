@@ -4,8 +4,6 @@ let angular = require('angular');
 let $ = require('jquery');
 let ngAnimate = require('angular-animate');
 let ngRoute = require('angular-route');
-
-
 let app = angular.module('myApp', ['ngAnimate','ngRoute']);
 
 app.config(function($routeProvider, $locationProvider){ 
@@ -21,13 +19,7 @@ app.config(function($routeProvider, $locationProvider){
 
 //angular display and google api callback function
 
-app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location, $window){
-
-
-	this.getPath = function(){
-
-		return $window.location.reload()
-	}
+app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location){
 	
   
  	this.heading = "The World Is Yours";
@@ -38,14 +30,13 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location, 
  	this.hideLocation = false;
  	this.hideHobby = true;
  	this.showResults = false;
- 	this.showNewSearch = false;
 
  	//get location from Google API
 
  	this.getLocData = function(){
  		 
- 		 let locTag = $('#query').val();
-
+ 		let locTag = $('#query').val();
+ 			
  		 if(locTag  == ""){
  		 	alert('Please enter a location');
  		 	return;
@@ -59,7 +50,6 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location, 
 
 
  			GoogleLocation.getLocation(locTag, function(response) {
-				
 				ctrl.location = response;
 				ctrl.apiLocation = response.data.predictions[0].description
 					
@@ -73,23 +63,21 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location, 
  	this.getHobData = function(){
 
  		 let hobTag = $('#query2').val();
-	
+ 			
  			if(hobTag  == ""){
  		 	alert('Please enter a hobby');
  		 	return;
  		 }
  		 else{
-
- 		 	
  		 	this.hideHobby = true;
  		 	let ctrl2 = this;
- 		 	$timeout(function(){ctrl2.showResults = true; ctrl2.showNewSearch = true}, 1000)
+ 		 	$timeout(function(){ctrl2.showResults = true;}, 1000)
 
+ 			
  			YelpHobby.getHobby(hobTag, this.apiLocation, function(output){
- 	
+ 				console.log(output);
  				ctrl2.destination = output;
  				ctrl2.placesArray = output.businesses;
-
  			});
  			
  		}
@@ -106,10 +94,6 @@ app.controller('ctrl', function($timeout, GoogleLocation, YelpHobby, $location, 
 		locTag = $('#query').val('');
 		ctrl3.placesArray = null;
 		ctrl3.addressArray = null;
-
-		console.log(hobTag);
-		console.log(locTag);
-
 
 	}
 
@@ -165,11 +149,7 @@ app.service("YelpHobby", function($http){
 		let tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
 		let encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, {encodeSignature: false});
 		params["oauth_signature"] = encodedSignature;	
-		$http.jsonp(url, {params: params}).success(callback).error(function(data, status){
-
-			console.log(data, status);
-
-		})	
+		$http.jsonp(url, {params: params}).success(callback);	
 		
 		}
 

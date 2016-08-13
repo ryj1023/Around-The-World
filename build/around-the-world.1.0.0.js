@@ -52,7 +52,6 @@
 	var $ = __webpack_require__(3);
 	var ngAnimate = __webpack_require__(4);
 	var ngRoute = __webpack_require__(6);
-	
 	var app = angular.module('myApp', ['ngAnimate', 'ngRoute']);
 	
 	app.config(function ($routeProvider, $locationProvider) {
@@ -67,12 +66,7 @@
 	
 	//angular display and google api callback function
 	
-	app.controller('ctrl', function ($timeout, GoogleLocation, YelpHobby, $location, $window) {
-	
-		this.getPath = function () {
-	
-			return $window.location.reload();
-		};
+	app.controller('ctrl', function ($timeout, GoogleLocation, YelpHobby, $location) {
 	
 		this.heading = "The World Is Yours";
 		this.subheading = "Where would you like to go?";
@@ -82,7 +76,6 @@
 		this.hideLocation = false;
 		this.hideHobby = true;
 		this.showResults = false;
-		this.showNewSearch = false;
 	
 		//get location from Google API
 	
@@ -105,7 +98,6 @@
 					}, 1000);
 	
 					GoogleLocation.getLocation(locTag, function (response) {
-	
 						ctrl.location = response;
 						ctrl.apiLocation = response.data.predictions[0].description;
 					});
@@ -125,15 +117,14 @@
 				return;
 			} else {
 				(function () {
-	
 					_this2.hideHobby = true;
 					var ctrl2 = _this2;
 					$timeout(function () {
-						ctrl2.showResults = true;ctrl2.showNewSearch = true;
+						ctrl2.showResults = true;
 					}, 1000);
 	
 					YelpHobby.getHobby(hobTag, _this2.apiLocation, function (output) {
-	
+						console.log(output);
 						ctrl2.destination = output;
 						ctrl2.placesArray = output.businesses;
 					});
@@ -154,9 +145,6 @@
 			locTag = $('#query').val('');
 			ctrl3.placesArray = null;
 			ctrl3.addressArray = null;
-	
-			console.log(hobTag);
-			console.log(locTag);
 		};
 	});
 	
@@ -209,10 +197,7 @@
 			var tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
 			var encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, { encodeSignature: false });
 			params["oauth_signature"] = encodedSignature;
-			$http.jsonp(url, { params: params }).success(callback).error(function (data, status) {
-	
-				console.log(data, status);
-			});
+			$http.jsonp(url, { params: params }).success(callback);
 		};
 	});
 
