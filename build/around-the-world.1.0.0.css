@@ -16,7 +16,6 @@ body {
   position: absolute;
   z-index: 1;
   background-color: #FF9800;
-  box-shadow: 4px 4px 4px  #FFE0B2;
   top: 0;
   left: 0;
   opacity: 0.95;
@@ -48,7 +47,6 @@ body {
   position: absolute;
   z-index: 1;
   background-color: #FF9800;
-  box-shadow: 4px 4px 4px  #FFE0B2;
   top: 0;
   left: 0;
   opacity: 0.95;
@@ -111,7 +109,6 @@ body {
   position: absolute;
   z-index: 1;
   background-color: #FF9800;
-  box-shadow: 4px 4px 4px  #FFE0B2;
   top: 0;
   left: 0;
   opacity: 0.95;
@@ -162,15 +159,27 @@ body {
   padding-top: 1%;
 }
 .results .new-search {
-  padding-left: 5%;
+  float: right;
+  margin-right: 3%;
+  margin-top: 2%;
+  padding-top: 1%;
+  padding-left: 3%;
+  padding-right: 0%;
+  border: 0;
+  width: 17%;
+  height: 40px;
+  font-size: 18px;
+  color: white;
+  background-color: #FFE0B2;
+  cursor: pointer;
 }
 .footer {
   position: absolute;
   z-index: 0;
   margin-top: 25%;
   background-color: #E64A19;
-  height: 350px;
-  min-height: 350px;
+  height: 365px;
+  min-height: 360px;
   width: 100%;
 }
 .footer h1 {
