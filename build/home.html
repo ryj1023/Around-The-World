@@ -1,38 +1,66 @@
+<div class="container" ng-controller="ctrl as vm">
+  <div class="first-input" ng-hide="vm.hideLocation">
+    <h1>{{vm.heading}}</h1>
+    <hr />
+    <h2>{{vm.subheading}}</h2>
+    <form class="location-input">
+      <input class="text" type="text" placeholder="Enter a location" size="20" id='query'>
+      <input  class="button" type="submit" onsubmit="return false" ng-click=" vm.getLocData();" value="GO!">
+    </form>
+  </div>
+  <div class="second-input" ng-hide="vm.hideHobby">
+    <h1>{{vm.heading}}</h1>
+    <hr />
+    <h2>{{vm.subheading2}}</h2>
+    <form class="location-input" href="#home" onsubmit="return false">
+      <input class="text" type="text" placeholder="Enter a hobby" size="20" id='query2'>
+      <input class="button" type="submit" ng-click=" setTimeout(vm.getHobData, 3000);vm.getHobData(); " value="GO!">
+    </form>
+  </div>
+  <div class="results" ng-show="vm.showResults">
+    <h2>{{vm.resultsHeading}}</h2>
+    <form class="flight-input">
+      <input class="text" list="airportsDepart" ng-model="vm.start" ng-change="vm.getStartCity()" placeholder="Airport depart code" size="5" id='query4'>
+      <datalist id="airportsDepart">
+        <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.name}}">
+          code: {{airports.code}}
+      </datalist>
+      <input class="text" list="airportsArrive" ng-model="vm.finish" ng-change="vm.getFinishCity()" placeholder="Airport arrive code" size="5" id='query4'>
+      <datalist id="airportsArrive">
+      <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.name}}"> code: {{airports.code}}
+      </datalist>
+      <button id="flights-button" ng-click="vm.getDate()">Check Flights</button>
+    </form>
+    <p class="date-text"> Select a flight date:</p>
+    <input type="date" id="startDate" value="2016-09-09">
+    <a class="new-search" ng-click="vm.getPath()" ng-hide="hideNew">New Search</a>
+    <a class="back" ng-show="vm.backButton" ng-click="vm.goBack()">Back</a>
+    <div class="row" ng-hide="vm.hideRow" ng-repeat="places in vm.placesArray">
+    <a class="links" href={{places.url}} target="_blank">{{places.name}}</a>
+    <p class="address" ng-repeat="address in places.location.display_address">{{address}}</p>		
+    <p class="description">{{places.snippet_text}}</p>
+    <br />	
+    <img class="rating" ng-src="{{places.rating_img_url_large}}"{{places.rating_img_url_large}}>
+    <img class="images" ng-src=" {{places.image_url}} " {{places.image_url}}>
+    </div>
+    <div id="flight-info" ng-show="vm.showFlights" ng-repeat="flight in tripReturn">
+    <ul class="tickets">
+    <span class="flight-text"><b>Price:</b> ${{flight.salesTotal}}</span><br />
+    <span><b>Duration:</b> {{flight.duration}} minutes</span><br />
+    <div ng-repeat="segment in flight.segment">
+    <span><b>Airline:</b> {{segment.carrier}}</span><br /> 
+    <span><b>Flight Number:</b> {{segment.flightNumber}}</span><br />
+    <span><b>Origin:</b> {{segment.origin}} {{segment.departureTime | date :  "medium"}}</span><br />
+    <span><b>Destination:</b> {{segment.destination}} {{segment.arrivalTime | date :  "medium"}}</span>
+    </div>				
+    </ul>
+    </div>
+  </div>
+  <div class="header">
+  </div>
+  <div class="footer">
+  <h1>{{vm.footer}}</h1>
+  </div>
+</div>
 					
-			<div class="container" ng-controller="ctrl as vm">
-				<div class="first-input" ng-hide="vm.hideLocation">
-						<h1>{{vm.heading}}</h1>
-						<hr />
-						<h2>{{vm.subheading}}</h2>
-					<form class="location-input">
-						<input class="text" type="text" placeholder="Enter a location" size="20" id='query'>
-						<input  class="button" type="submit" onsubmit="return false" ng-click=" vm.getLocData();" value="GO!">
-					</form>
-				</div>
-				 <div class="second-input" ng-hide="vm.hideHobby">
-						<h1>{{vm.heading}}</h1>
-						<hr />
-						<h2>{{vm.subheading2}}</h2>
-					<form class="location-input" href="#home" onsubmit="return false">
-						<input class="text" type="text" placeholder="Enter a hobby" size="20" id='query2'>
-						<input class="button" type="submit" ng-click="vm.getHobData();" value="GO!">
-					</form>
-				</div>
-				<div class="results" ng-show="vm.showResults">
-						<h2>{{vm.resultsHeading}}</h2>
-						<a class="new-search" ng-click=vm.getPath()>New Search</a>
-					<div class="row" ng-repeat="places in vm.placesArray">
-						<a class="links" href={{places.url}} target="_blank">{{places.name}}</a>
-						<p class="address" ng-repeat="address in places.location.display_address">{{address}}</p>		
-						<p class="description">{{places.snippet_text}}</p>
-						<br />	
-						<img class="rating" ng-src="{{places.rating_img_url_large}}"{{places.rating_img_url_large}}>
-						<img class="images" ng-src=" {{places.image_url}} " {{places.image_url}}>
-					</div>
-					</div>					
-				</div>
-					<div class="header"></div>
-						<div class="footer">
-							<h1>{{vm.footer}}</h1>
-						</div>
-				</div>			
+							

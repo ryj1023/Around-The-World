@@ -8,7 +8,7 @@
     "build": "npm run clean && npm run mkdir && npm run build:html && npm run build:css && npm run build:js",
     "watch": "npm run watch:html & npm run watch:css & npm run watch:js",
     "clean": "rm -rf build",
-    "build:html": "npm run clean:html && cp *.html build/",
+    "build:html": "npm run clean:html && cp *.html build/ && cp *.csv build/",
     "watch:html": "npm run build:html && chokidar *.html -c 'npm run build:html'",
     "clean:html": "rm -f build/index.html && rm -f build/home.html",
     "build:css": "npm run build:css:unminified && npm run build:css:minified",
@@ -35,6 +35,7 @@
   "dependencies": {
     "angular": "^1.5.7",
     "angular-animate": "^1.5.7",
+    "angular-datepicker": "^1.0.5",
     "angular-route": "^1.5.7",
     "angular-xml": "^2.2.1",
     "chokidar": "^1.6.0",

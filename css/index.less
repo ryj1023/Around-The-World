@@ -106,6 +106,83 @@ body {
  }
 
 }
+
+.flight-input{
+
+  width: 80%;
+  padding-top: 2em;
+  padding-left: 10%;
+  height: 50px; 
+  float: left;
+  
+  
+
+  .text{
+
+    height: 42px;
+    margin-top: 0.5%;
+    margin-left: 1%;
+    padding-bottom: 0.5%;
+    float: left;
+    width: 27%;
+    font-size: 20px;
+}
+
+  }
+.flights-button{
+
+    float: right;
+    margin-left: 1%;
+    margin-right: 3%;
+    margin-top: -5.5%;
+    padding-top: 1.5%;
+    padding-left: 2%;
+    padding-bottom: -0.5%;
+    padding-right: 1%;
+    border: 0;
+    width: 17%;
+    height: 36px;
+    font-size: 18px;
+    color: white;
+    background-color: #FFE0B2;
+    cursor: pointer;
+
+
+}
+
+#flights-button{
+
+      margin-left: 1%;
+    margin-right: 3%;
+    margin-top: 0.5%;
+    padding-top: 0.5%;
+    padding-left: 2%;
+    padding-right: 1%;
+    border: 0;
+    width: 17%;
+    height: 100%;
+    font-size: 18px;
+    color: white;
+    background-color: #FFE0B2;
+    cursor: pointer;
+
+}
+
+.date-text{
+
+    float: left;
+    margin-left: 10%;
+    margin-top: 2%;
+    color: white;
+}
+
+#startDate{
+
+    margin-left: 1%;
+    margin-top: 2%;
+}
+  
+
 .results{
 
   .custom-box;
@@ -114,6 +191,7 @@ body {
   margin-top: 30px;
   margin-left: 17.5%;
   overflow: scroll;
+
 
   .row{
     margin-bottom: 2%;
@@ -126,6 +204,21 @@ body {
     padding-right: 2%;
     width: 90%;
     height: 250px;
+    float: left;
+  }
+
+  #flight-info{
+
+    margin-bottom: 2%;
+    background-color: #FFE0B2;
+    margin-top: 4%;
+    margin-left: 3%;
+    margin-right: 3%;
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: 90%;
+    height: 50%;
     float: left;
   }
 
@@ -175,6 +268,25 @@ body {
   cursor: pointer;
 
   }
+
+  .back{
+
+    text-align: center;
+    float: right;
+    margin-right: 3%;
+    margin-top: 2%;
+    padding-top: 1%;
+    padding-left: 0%;
+    padding-right: 0%;
+    border: 0;
+    width: 17%;
+    height: 40px;
+    font-size: 18px;
+    color: white;
+    background-color: #FFE0B2;
+    cursor: pointer;
+
+  }
   
 }
 
@@ -183,16 +295,75 @@ body {
   z-index: 0;
   margin-top: 25%;
   background-color: #E64A19;
-  height: 365px;
-  min-height: 360px;
+  height: 410px;
+  min-height: 410px;
   width: 100%;
 
   h1{
 
 	color: #FFE0B2;
   font-size: 40px;
-  padding-top: 220px;
+  padding-top: 250px;
   text-align: center;
 
   }
 }
+
+.tickets{
+
+    height: 93%;
+    width: 80%;
+    background-color: white;
+    padding-top: 0%;
+    border-radius: 10px;
+    font-size: 13px;
+}
+.flight-text{
+
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-right: 75%;
+}
+
+
+
+@media only screen and (max-width: 1000px) {
+  
+  .footer{
+    
+    z-index: 0;
+    height: 100%;
+  }
+
+  .first-input, .second-input, .results {
+
+      h1{
+
+        padding-top: 30%;
+      }
+
+      #flight-input{
+
+        height: 50%;
+        z-index: 1;
+      }
+
+      #flight-info{
+
+        height: 12%;
+        border-radius: 10px;
+      }
+
+      padding-top: 35%;
+      height: 100%;
+      width: 100%;
+      margin-top: 0px;
+      margin-left: 0px;
+      opacity: 1;
+      
+
+  
+  }
+
+}
+
