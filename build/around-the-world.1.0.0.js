@@ -52,9 +52,7 @@
 	var $ = __webpack_require__(3);
 	var ngAnimate = __webpack_require__(4);
 	var ngRoute = __webpack_require__(6);
-	//let datePicker = require('angular-datepicker');
-	//import * as dir from '../js/directives'
-	var app = angular.module('myApp', ['ngAnimate', 'ngRoute']);
+	var app = angular.module('myApp', ['services', 'ngAnimate', 'ngRoute']);
 	app.config(function ($routeProvider, $locationProvider) {
 		$routeProvider.when('/', {
 			templateUrl: 'home.html'
@@ -66,6 +64,7 @@
 	});
 	//angular display and google api callback function
 	app.controller('ctrl', function ($scope, $timeout, GoogleLocation, YelpHobby, $location, $http) {
+	
 		this.heading = "The World Is Yours";
 		this.subheading = "Where would you like to go?";
 		this.subheading2 = "What's one of your favorite activities?";
@@ -282,51 +281,6 @@
 				var ctrl4 = this;
 				$scope.getFlights(ctrl4.start, ctrl4.finish, ctrl4.startDate);
 			}
-		};
-	});
-	//Google API service
-	app.service("GoogleLocation", function ($http) {
-		this.getLocation = function (tag, callBack) {
-			console.log(tag);
-			var request = {
-				input: tag,
-				key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY'
-			};
-			$http({
-				method: "GET",
-				url: "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=" + tag + "&key=AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY",
-				params: request
-			}).then(function (response) {
-				var x2js = new X2JS();
-				callBack(response);
-			}, function (response) {
-				alert("Something went wrong! please Search again.");
-				return;
-			});
-		};
-	});
-	//Yelp API service
-	app.service("YelpHobby", function ($http) {
-		this.getHobby = function (hobby, location, callback) {
-			var method = "GET";
-			var url = "https://api.yelp.com/v2/search";
-			var params = {
-				callback: "angular.callbacks._0",
-				oauth_consumer_key: "HRokaNQY63hf_M_pVay83Q",
-				oauth_token: "tUvHggPMn5epOhWeqG5ILVRYcl9DgTiu",
-				oauth_signature_method: "HMAC-SHA1",
-				oauth_timestamp: Math.floor(new Date().getTime() / 1000),
-				oauth_nonce: "PLAINTEXT",
-				term: hobby,
-				location: location,
-				limit: 10
-			};
-			//oauth signiture info
-			var consumerSecret = 'DcRCyGutJxmDNqjy5Cxvdbg7itE';
-			var tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
-			var encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, { encodeSignature: false });
-			params["oauth_signature"] = encodedSignature;
-			$http.jsonp(url, { params: params }).success(callback);
 		};
 	});
 

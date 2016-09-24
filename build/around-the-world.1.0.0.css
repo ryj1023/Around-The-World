@@ -211,6 +211,7 @@ body {
 .results .images {
   width: 17%;
   float: right;
+  margin-top: -5%;
 }
 .results .links {
   padding-top: 5%;
@@ -276,10 +277,11 @@ body {
   text-align: center;
 }
 .tickets {
+  margin-top: -1%;
   height: 93%;
   width: 80%;
   background-color: white;
-  padding-top: 0%;
+  padding-top: 2%;
   border-radius: 10px;
   font-size: 13px;
 }

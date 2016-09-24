@@ -4,9 +4,7 @@ let angular = require('angular');
 let $ = require('jquery');
 let ngAnimate = require('angular-animate');
 let ngRoute = require('angular-route');
-//let datePicker = require('angular-datepicker');
-//import * as dir from '../js/directives'
-let app = angular.module('myApp', ['ngAnimate','ngRoute']);
+let app = angular.module('myApp', ['services','ngAnimate','ngRoute']);
 app.config(function($routeProvider, $locationProvider){ 
 		$routeProvider.when('/', {
 			templateUrl: 'home.html'
@@ -19,6 +17,7 @@ app.config(function($routeProvider, $locationProvider){
 	});
 //angular display and google api callback function
 app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $location, $http){
+
  	this.heading = "The World Is Yours";
  	this.subheading = "Where would you like to go?";
  	this.subheading2 = "What's one of your favorite activities?";
@@ -34,7 +33,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  	this.backButton = false;
  	this.cityModel = "";
  	this.flightInfoObject = [];
- 	//get the start and end location, date, and pass through flight codes function
+ 		//get the start and end location, date, and pass through flight codes function
  	this.getStartCity = function(){
 	 		if(this.start.length > 2){
 		 		this.getFlightCodes(this.start, function(response){
@@ -67,7 +66,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  	this.getPath = function(){
  		location.reload();
  	}
- 	//get location from Google API
+ 		//get location from Google API
  	this.getLocData = function(){
  		let locTag = $('#query').val();
  		 if(locTag  == ""){
@@ -97,7 +96,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 	 		});	
  		}
  	}
- 	//get hobby input from Yelp API
+ 		//get hobby input from Yelp API
  	this.getHobData = function(){
  		let ctrl2 = this;
  		$timeout(function(){}, 1000)
@@ -120,7 +119,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  			});
  		}
 	};
-	//clear results and forms
+		//clear results and forms
 	this.newSearch = function(locTag, hobTag, placesArray, addressArray){
 		let ctrl3 = this;
 		ctrl3.showResults = false;
@@ -238,48 +237,3 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 		}
 	}
 })
-//Google API service
-app.service("GoogleLocation", function($http) {
-	this.getLocation = function(tag, callBack) {
-		console.log(tag);
-		let request = {
-			input: tag,
-			key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY'
-		};
-		$http({
-			method: "GET",
-			url: "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=" + tag + "&key=AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY",
-			params: request
-		}).then(function(response) {
-			let x2js = new X2JS()
-			callBack(response);
-		}, function(response){
-			alert("Something went wrong! please Search again.")
-			return
-		})
-	}
-});
-//Yelp API service
-app.service("YelpHobby", function($http){
-	this.getHobby = function(hobby, location, callback){
-		let method = "GET";
-		let url = "https://api.yelp.com/v2/search";
-		let params = {
-			callback: "angular.callbacks._0",
-			oauth_consumer_key: "HRokaNQY63hf_M_pVay83Q",
-			oauth_token: "tUvHggPMn5epOhWeqG5ILVRYcl9DgTiu",
-			oauth_signature_method: "HMAC-SHA1",
-			oauth_timestamp: Math.floor(new Date().getTime()/1000),
-			oauth_nonce: "PLAINTEXT",
-			term: hobby,
-			location: location,
-			limit: 10
-		};
-		//oauth signiture info
-		let consumerSecret = 'DcRCyGutJxmDNqjy5Cxvdbg7itE';
-		let tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
-		let encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, {encodeSignature: false});
-		params["oauth_signature"] = encodedSignature;	
-		$http.jsonp(url, {params: params}).success(callback);	
-		}
-	});
