@@ -1,7 +1,5 @@
 angular.module('services', [])
-
 //Google API Service
-
 .service("GoogleLocation", function($http) {
 	this.getLocation = function(tag, callBack) {
 		console.log(tag);
@@ -22,9 +20,7 @@ angular.module('services', [])
 		})
 	}
 })
-
 //Yelp API Service
-
 .service("YelpHobby", function($http){
 	this.getHobby = function(hobby, location, callback){
 		let method = "GET";

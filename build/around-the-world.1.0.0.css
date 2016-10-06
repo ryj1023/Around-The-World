@@ -322,7 +322,7 @@ body {
   .first-input #flight-info,
   .second-input #flight-info,
   .results #flight-info {
-    height: 12%;
+    height: 65%;
     border-radius: 10px;
   }
 }

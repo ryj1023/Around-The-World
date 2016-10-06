@@ -59,12 +59,10 @@
 		}).otherwise({
 			redirectTo: '/'
 		});
-	
 		$locationProvider.html5Mode(true);
 	});
 	//angular display and google api callback function
 	app.controller('ctrl', function ($scope, $timeout, GoogleLocation, YelpHobby, $location, $http) {
-	
 		this.heading = "The World Is Yours";
 		this.subheading = "Where would you like to go?";
 		this.subheading2 = "What's one of your favorite activities?";
