@@ -150,6 +150,9 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 					g.flightInfoObject.push({name: name, city: city, code: codes})
 					console.log(g.flightInfoObject)
 				}
+		}, function(response){
+			alert("Something went wrong! please Search again.")
+			return
 		})
 	}
 		//use $scope with $scope.digest

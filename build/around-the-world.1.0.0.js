@@ -200,6 +200,9 @@
 					g.flightInfoObject.push({ name: name, city: _city, code: codes });
 					console.log(g.flightInfoObject);
 				}
+			}, function (response) {
+				alert("Something went wrong! please Search again.");
+				return;
 			});
 		};
 		//use $scope with $scope.digest
