@@ -7,6 +7,8 @@ Travel and actvity rating application
 
 <h1>Screenshots</h1>
 
+![Alt text](http://ryanjohnson/projects/Around-The-World/Screenshot.png "Optional title")
+
 
 
 <h1>Overview</h1>
