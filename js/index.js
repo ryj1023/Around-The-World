@@ -12,12 +12,10 @@ app.config(function($routeProvider, $locationProvider){
 			.otherwise({
 				redirectTo: '/'
 			});
-
 			$locationProvider.html5Mode(true);		
 	});
 //angular display and google api callback function
 app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $location, $http){
-
  	this.heading = "The World Is Yours";
  	this.subheading = "Where would you like to go?";
  	this.subheading2 = "What's one of your favorite activities?";
@@ -152,6 +150,9 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 					g.flightInfoObject.push({name: name, city: city, code: codes})
 					console.log(g.flightInfoObject)
 				}
+		}, function(response){
+			alert("Something went wrong! please Search again.")
+			return
 		})
 	}
 		//use $scope with $scope.digest
