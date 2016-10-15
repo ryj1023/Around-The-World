@@ -282,6 +282,7 @@ body {
 .tickets {
   margin-top: -1%;
   height: 93%;
+  max-height: 93%;
   width: 80%;
   background-color: white;
   padding-top: 2%;
@@ -324,6 +325,10 @@ body {
   .results #flight-info {
     height: 65%;
     border-radius: 10px;
+  }
+  .tickets {
+    padding-left: 12%;
+    font-size: 15px;
   }
 }
 /*# sourceMappingURL=around-the-world.1.0.0.css.map */
