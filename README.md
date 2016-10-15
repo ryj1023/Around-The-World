@@ -29,3 +29,5 @@ Around The World is built on the font end using AngularJS, with Angular's aminat
 
 <h1>Upcoming Features</h1>
 
+Back end features are being developed using the MEAN stack for the user to create an itinerary for multiple events and round trip fight plans. 
+
