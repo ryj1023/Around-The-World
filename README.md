@@ -7,7 +7,9 @@ Travel and actvity rating application
 
 <h1>Screenshots</h1>
 
-![Alt text](ryanjohnson/projects/Around-The-World/Screenshot.png "Optional title")
+![Screenshot](https://github.com/ryj1023/Around-The-World/blob/master/Sreenshot.png)
+![Screenshot](https://github.com/ryj1023/Around-The-World/blob/master/Screenshot2.png)
+![Screenshot](https://github.com/ryj1023/Around-The-World/blob/master/Screenshot3.png)
 
 
 
