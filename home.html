@@ -4,7 +4,7 @@
     <hr />
     <h2>{{vm.subheading}}</h2>
     <form class="location-input">
-      <input class="text" type="text" placeholder="Enter a location" size="20" id='query'>
+      <input class="text" type="text" ng-model=vm.locTag placeholder="Enter a location" size="20" id='query'>
       <input  class="button" type="submit" onsubmit="return false" ng-click=" vm.getLocData();" value="GO!">
     </form>
   </div>
@@ -13,7 +13,7 @@
     <hr />
     <h2>{{vm.subheading2}}</h2>
     <form class="location-input" href="#home" onsubmit="return false">
-      <input class="text" type="text" placeholder="Enter a hobby" size="20" id='query2'>
+      <input class="text" ng-model="vm.hobTag" type="text" placeholder="Enter a hobby" size="20" id='query2'>
       <input class="button" type="submit" ng-click=" setTimeout(vm.getHobData, 3000);vm.getHobData(); " value="GO!">
     </form>
   </div>

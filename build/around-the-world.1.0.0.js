@@ -78,6 +78,8 @@
 		this.backButton = false;
 		this.cityModel = "";
 		this.flightInfoObject = [];
+		this.locTag = "";
+		this.hobTag = "";
 		//get the start and end location, date, and pass through flight codes function
 		this.getStartCity = function () {
 			if (this.start.length > 2) {
@@ -112,14 +114,15 @@
 		this.getLocData = function () {
 			var _this = this;
 	
-			var locTag = $('#query').val();
-			if (locTag == "") {
+			//let locTag = $('#query').val();
+			if (this.locTag == "") {
 				alert('Please enter a location');
 				return;
 			} else {
 				(function () {
 					var ctrl = _this;
-					GoogleLocation.getLocation(locTag, function (response) {
+					console.log(ctrl.locTag);
+					GoogleLocation.getLocation(ctrl.locTag, function (response) {
 						if (response.data.status == "ZERO_RESULTS") {
 							alert("No results. Please select a new location.");
 						} else {
@@ -146,12 +149,13 @@
 		this.getHobData = function () {
 			var ctrl2 = this;
 			$timeout(function () {}, 1000);
-			var hobTag = $('#query2').val();
-			if (hobTag == "") {
+			//hobTag = $('#query2').val();
+			if (ctrl2.hobTag == "") {
 				alert('Please enter an activity');
 				return;
 			} else {
-				YelpHobby.getHobby(hobTag, this.apiLocation, function (output) {
+				console.log(ctrl2.hobTag);
+				YelpHobby.getHobby(ctrl2.hobTag, this.apiLocation, function (output) {
 					if (output.businesses.length == 0) {
 						alert('No results found!');
 						ctrl2.getPath();
@@ -165,19 +169,6 @@
 					ctrl2.placesArray = output.businesses;
 				});
 			}
-		};
-		//clear results and forms
-		this.newSearch = function (locTag, hobTag, placesArray, addressArray) {
-			var ctrl3 = this;
-			ctrl3.showResults = false;
-			ctrl3.hideHobby = true;
-			$timeout(function () {
-				ctrl3.hideLocation = false;
-			}, 700);
-			hobTag = $('#query2').val('');
-			locTag = $('#query').val('');
-			ctrl3.placesArray = null;
-			ctrl3.addressArray = null;
 		};
 		this.getFlightCodes = function (city, callback) {
 			var g = this;
@@ -198,7 +189,6 @@
 					var name = response.data.airports[i].name;
 					var _city = response.data.airports[i].city;
 					g.flightInfoObject.push({ name: name, city: _city, code: codes });
-					console.log(g.flightInfoObject);
 				}
 			}, function (response) {
 				alert("Something went wrong! please Search again.");
@@ -244,7 +234,6 @@
 							tripObject.duration = trip.slice[0].duration;
 							tripObject.segment = [];
 							for (var l = 0; l < trip.slice[0].segment.length; l++) {
-	
 								var segmentObject = {};
 								var segment = trip.slice[0].segment[l];
 								segmentObject.carrier = segment.flight.carrier;
@@ -271,7 +260,7 @@
 			});
 		};
 		this.getFlightId = function () {
-			if (this.start == "" || this.finish == "" || this.startDate == "" || this.endDate == "") {
+			if (this.start == "" || this.finish == "" || this.startDate == "") {
 				alert("please fill in all fields");
 				return;
 			} else {

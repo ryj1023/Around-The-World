@@ -2,7 +2,6 @@ angular.module('services', [])
 //Google API Service
 .service("GoogleLocation", function($http) {
 	this.getLocation = function(tag, callBack) {
-		console.log(tag);
 		let request = {
 			input: tag,
 			key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY'
