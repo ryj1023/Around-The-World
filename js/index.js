@@ -68,14 +68,12 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  	}
  		//get location from Google API
  	this.getLocData = function(){
- 		//let locTag = $('#query').val();
  		 if(this.locTag  == ""){
  		 	alert('Please enter a location');
  		 	return;
  		 }
  		 else{
  	 			let ctrl = this;
- 	 			console.log(ctrl.locTag)
 	 			GoogleLocation.getLocation(ctrl.locTag, function(response) {
 	 					if(response.data.status == "ZERO_RESULTS"){
 							alert("No results. Please select a new location.")
@@ -90,10 +88,18 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 							let singleType = types[j]				
 						if(singleType == "political"){
 							ctrl.apiLocation = location.description;
+							return;
+							}
+						else if(singleType == "geocode"){
+							ctrl.apiLocation = location.description;
 							}
 						}
 					}
 				}	
+				if(ctrl.apiLocation == null){
+					alert('Please search a valid location (If you are searching a city or state, try including the country, or search the country or state name by itself.)')
+					ctrl.getPath();
+				}
 	 		});	
  		}
  	}
@@ -101,13 +107,11 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  	this.getHobData = function(){
  		let ctrl2 = this;
  		$timeout(function(){}, 1000)
- 		//hobTag = $('#query2').val();
- 			if(ctrl2.hobTag  == ""){
+ 			if(ctrl2.hobTag  == "" || this.apiLocation == null){
  		 	alert('Please enter an activity');
  		 	return;
  		 }
  		 else{
- 		 	console.log(ctrl2.hobTag)
  			YelpHobby.getHobby(ctrl2.hobTag, this.apiLocation, function(output){
  				if(output.businesses.length == 0){
  					alert('No results found!')

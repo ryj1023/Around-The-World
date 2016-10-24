@@ -114,14 +114,12 @@
 		this.getLocData = function () {
 			var _this = this;
 	
-			//let locTag = $('#query').val();
 			if (this.locTag == "") {
 				alert('Please enter a location');
 				return;
 			} else {
 				(function () {
 					var ctrl = _this;
-					console.log(ctrl.locTag);
 					GoogleLocation.getLocation(ctrl.locTag, function (response) {
 						if (response.data.status == "ZERO_RESULTS") {
 							alert("No results. Please select a new location.");
@@ -137,9 +135,16 @@
 									var singleType = types[j];
 									if (singleType == "political") {
 										ctrl.apiLocation = _location.description;
+										return;
+									} else if (singleType == "geocode") {
+										ctrl.apiLocation = _location.description;
 									}
 								}
 							}
+						}
+						if (ctrl.apiLocation == null) {
+							alert('Please search a valid location (If you are searching a city or state, try including the country, or search the country or state name by itself.)');
+							ctrl.getPath();
 						}
 					});
 				})();
@@ -149,12 +154,10 @@
 		this.getHobData = function () {
 			var ctrl2 = this;
 			$timeout(function () {}, 1000);
-			//hobTag = $('#query2').val();
-			if (ctrl2.hobTag == "") {
+			if (ctrl2.hobTag == "" || this.apiLocation == null) {
 				alert('Please enter an activity');
 				return;
 			} else {
-				console.log(ctrl2.hobTag);
 				YelpHobby.getHobby(ctrl2.hobTag, this.apiLocation, function (output) {
 					if (output.businesses.length == 0) {
 						alert('No results found!');
