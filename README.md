@@ -1,9 +1,6 @@
 # Around-The-World
 
-
-<h1>How Fit Are You?</h1>
-
-Travel and actvity rating application
+Travel and activity rating application
 
 <h1>Screenshots</h1>
 
