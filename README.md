@@ -22,7 +22,7 @@ When it comes to traveling, especially to a location you have never been before,
 
 The UX in this app is designed to be simple and easy to use. The user is prompted to enter a location and activity, then they are shown a list of those activities in order based on a user review rating, this makes selecting the right venue easy and reliable. The flight sarch allows the user to select flights based on exactly when they want to travel, and is not restricted to any particular airline. This will inform the user of the cost of the flight so it is easier for them to estimate their budget. The app is designed with animation and bright colors to add to the exitement of embarking on a new adventure.
 
-You can access a working prototype of the app here:
+You can access a working prototype of the app here: https://ryj1023.github.io/Around-The-World/build/
 
 <h1>Technical</h1>
 
