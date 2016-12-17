@@ -24,9 +24,20 @@ The UX in this app is designed to be simple and easy to use. The user is prompte
 
 You can access a working prototype of the app here: https://ryj1023.github.io/Around-The-World/build/
 
+<h1>Featues</h1>
+
+* Question are presented using the ng-show and ng-model directives. 
+* User entered keyword is passed into a Google Location API to match up the key word with a result most closely correlated. * * Object is stored in a location variable to be used as part of Yelp's API query. 
+* Second input is used along with the location variable to search Yelp's API and return an object that contains locations of that hobby. 
+* Using the ng-repeat directive, the search results are displayed, and when the user selects a location, a new tab is open that displays the yelp page of that location. 
+* The flight search functionality uses the ng-change directive to initiate API calls for Google's QPS express API and display all airport codes in a datalist based on the search query if the user does not know the airport codes.
+* When the depart and arrive airport codes entered into the search field, and flight date is selected, an object is displayed containing all of the relevant flights is returned from cheapest to most expensive. 
+
 <h1>Technical</h1>
 
-Around The World is built on the font end using AngularJS, with Angular's animate, ng-route, and O Authorization. The stylesheet is built using LESS and nodeJS is implemented with npm package manager. The first question is presented using the ng-show and ng-model directives. The user types in a keyword for a location request and the keyword is first passed into a Google Location API to match up the key word with a result most closely correlated. The returned object is stored in a location variable to be used as part of Yelp's API query. The app prompts the user to enter in a second input based on an activity they wish to partake in. The input is used along with the location variable to search Yelp's API and return an object that contains locations of that hobby. Using the ng-repeat directive, the search results are displayed, and when the user selects a location, a new tab is open that displays the yelp page of that location. The flight search functionality uses the ng-change directive to initiate API calls for Google's QPS express API and display all airport codes in a datalist based on the search query if the user does not know the airport codes. When the depart and arrive airport codes entered into the search field, and flight date is selected, an object is displayed containing all of the relevant flights is returned from cheapest to most expensive.   
+Around The World is built on the font end using AngularJS, with Angular's animate, ng-route, and O Authorization. The stylesheet is built using LESS and nodeJS is implemented with npm package manager.
+
+
 
 <h1>Upcoming Features</h1>
 
