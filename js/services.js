@@ -12,7 +12,6 @@ angular.module('services', [])
 			url: "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=" + tag + "&key=AIzaSyADmm4nPlGxj7URXxMnT-PQYzFgR8CVQpg",
 			params: request
 		}).then(function(response) {
-			console.log(response)
 			let x2js = new X2JS()
 			callBack(response);
 		}, function(response){
