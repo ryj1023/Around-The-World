@@ -4,13 +4,15 @@ angular.module('services', [])
 	this.getLocation = function(tag, callBack) {
 		let request = {
 			input: tag,
-			key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY'
+			//key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY'
+			//key: 'AIzaSyADmm4nPlGxj7URXxMnT-PQYzFgR8CVQpg'
 		};
 		$http({
 			method: "GET",
-			url: "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=" + tag + "&key=AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY",
+			url: "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=" + tag + "&key=AIzaSyADmm4nPlGxj7URXxMnT-PQYzFgR8CVQpg",
 			params: request
 		}).then(function(response) {
+			console.log(response)
 			let x2js = new X2JS()
 			callBack(response);
 		}, function(response){

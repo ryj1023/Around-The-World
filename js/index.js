@@ -75,6 +75,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  		 else{
  	 			let ctrl = this;
 	 			GoogleLocation.getLocation(ctrl.locTag, function(response) {
+	 				console.log(response)
 	 					if(response.data.status == "ZERO_RESULTS"){
 							alert("No results. Please select a new location.")
 						}
@@ -97,8 +98,10 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 					}
 				}	
 				if(ctrl.apiLocation == null){
+					ctrl.apiLocation = ctrl.locTag;
+					return;
 					alert('Please search a valid location (If you are searching a city or state, try including the country, or search the country or state name by itself.)')
-					ctrl.getPath();
+					//ctrl.getPath();
 				}
 	 		});	
  		}
