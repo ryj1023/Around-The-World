@@ -62,7 +62,7 @@
 		$locationProvider.html5Mode(true);
 	});
 	//angular display and google api callback function
-	app.controller('ctrl', function ($scope, $timeout, GoogleLocation, YelpHobby, $location, $http) {
+	app.controller('ctrl', function ($scope, $timeout, GoogleLocation, YelpHobby, $location, $http, Places) {
 		this.heading = "The World Is Yours";
 		this.subheading = "Where would you like to go?";
 		this.subheading2 = "What's one of your favorite activities?";
@@ -120,35 +120,11 @@
 			} else {
 				(function () {
 					var ctrl = _this;
-					GoogleLocation.getLocation(ctrl.locTag, function (response) {
-						if (response.data.status == "ZERO_RESULTS") {
-							alert("No results. Please select a new location.");
-						} else {
-							ctrl.hideLocation = true;
-							$timeout(function () {
-								ctrl.hideHobby = false;
-							}, 1000);
-							for (var i = 0; i < response.data.predictions.length; i++) {
-								var _location = response.data.predictions[i];
-								var types = response.data.predictions[i].types;
-								for (var j = 0; j < types.length; j++) {
-									var singleType = types[j];
-									if (singleType == "political") {
-										ctrl.apiLocation = _location.description;
-										return;
-									} else if (singleType == "geocode") {
-										ctrl.apiLocation = _location.description;
-									}
-								}
-							}
-						}
-						if (ctrl.apiLocation == null) {
-							ctrl.apiLocation = ctrl.locTag;
-							return;
-							alert('Please search a valid location (If you are searching a city or state, try including the country, or search the country or state name by itself.)');
-							//ctrl.getPath();
-						}
-					});
+					ctrl.apiLocation = ctrl.locTag;
+					ctrl.hideLocation = true;
+					$timeout(function () {
+						ctrl.hideHobby = false;
+					}, 1000);
 				})();
 			}
 		};
@@ -161,6 +137,7 @@
 				return;
 			} else {
 				YelpHobby.getHobby(ctrl2.hobTag, this.apiLocation, function (output) {
+					console.log(output);
 					if (output.businesses.length == 0) {
 						alert('No results found!');
 						ctrl2.getPath();
@@ -228,6 +205,7 @@
 				dataType: 'json',
 				data: JSON.stringify(flightRequest),
 				success: function success(data) {
+					console.log(data);
 					var tripData = data.trips.data;
 					var tripOptions = data.trips.tripOption;
 					$scope.tripReturn = [];

@@ -15,7 +15,7 @@ app.config(function($routeProvider, $locationProvider){
 			$locationProvider.html5Mode(true);		
 	});
 //angular display and google api callback function
-app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $location, $http){
+app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $location, $http, Places){
  	this.heading = "The World Is Yours";
  	this.subheading = "Where would you like to go?";
  	this.subheading2 = "What's one of your favorite activities?";
@@ -74,35 +74,9 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  		 }
  		 else{
  	 			let ctrl = this;
-	 			GoogleLocation.getLocation(ctrl.locTag, function(response) {
-	 					if(response.data.status == "ZERO_RESULTS"){
-							alert("No results. Please select a new location.")
-						}
-							else{
+ 	 			ctrl.apiLocation = ctrl.locTag;
 		 				ctrl.hideLocation = true;
-	 		 			$timeout(function(){ctrl.hideHobby = false;}, 1000)
-					for(let i = 0; i < response.data.predictions.length; i++){
-							let location = response.data.predictions[i];
-							let types = response.data.predictions[i].types;
-						for(let j = 0; j < types.length; j++){
-							let singleType = types[j]				
-						if(singleType == "political"){
-							ctrl.apiLocation = location.description;
-							return;
-							}
-						else if(singleType == "geocode"){
-							ctrl.apiLocation = location.description;
-							}
-						}
-					}
-				}	
-				if(ctrl.apiLocation == null){
-					ctrl.apiLocation = ctrl.locTag;
-					return;
-					alert('Please search a valid location (If you are searching a city or state, try including the country, or search the country or state name by itself.)')
-					//ctrl.getPath();
-				}
-	 		});	
+	 		  			$timeout(function(){ctrl.hideHobby = false;}, 1000)	
  		}
  	}
  		//get hobby input from Yelp API
@@ -115,6 +89,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  		 }
  		 else{
  			YelpHobby.getHobby(ctrl2.hobTag, this.apiLocation, function(output){
+ 				console.log(output)
  				if(output.businesses.length == 0){
  					alert('No results found!')
  					ctrl2.getPath();
@@ -183,6 +158,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 			     dataType: 'json',
 			     data: JSON.stringify(flightRequest),
 			     success: function (data) {
+			     	console.log(data);
 			     let tripData = data.trips.data;
 			     let tripOptions = data.trips.tripOption;
 	      		 $scope.tripReturn = [];
@@ -234,4 +210,10 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  		 		$scope.getFlights(ctrl4.start, ctrl4.finish, ctrl4.startDate);
 		}
 	}
+
 })
+
+
+
+
+

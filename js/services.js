@@ -4,14 +4,36 @@ angular.module('services', [])
 	this.getLocation = function(tag, callBack) {
 		let request = {
 			input: tag,
-			//key: 'AIzaSyBhK4afPGeIOKro6PUWxOKvcTDXUqD-upY'
-			//key: 'AIzaSyADmm4nPlGxj7URXxMnT-PQYzFgR8CVQpg'
+			key: 'AIzaSyADmm4nPlGxj7URXxMnT-PQYzFgR8CVQpg',
+			dataType: 'json'
 		};
 		$http({
 			method: "GET",
 			url: "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=" + tag + "&key=AIzaSyADmm4nPlGxj7URXxMnT-PQYzFgR8CVQpg",
 			params: request
 		}).then(function(response) {
+			console.log(response)
+			let x2js = new X2JS()
+			callBack(response);
+		}, function(response){
+			alert("Something went wrong! please Search again.")
+			return
+		})
+	}
+})
+.service("GoogleLocation", function($http) {
+	this.getLocation = function(tag, callBack) {
+		let request = {
+			input: tag,
+			key: 'AIzaSyADmm4nPlGxj7URXxMnT-PQYzFgR8CVQpg',
+			dataType: 'json'
+		};
+		$http({
+			method: "GET",
+			url: "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=" + tag + "&key=AIzaSyADmm4nPlGxj7URXxMnT-PQYzFgR8CVQpg",
+			params: request
+		}).then(function(response) {
+			console.log(response)
 			let x2js = new X2JS()
 			callBack(response);
 		}, function(response){
@@ -41,9 +63,12 @@ angular.module('services', [])
 		let tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
 		let encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, {encodeSignature: false});
 		params["oauth_signature"] = encodedSignature;	
-		$http.jsonp(url, {params: params}).success(callback);	
+		$http.jsonp(url, {params: params}).success(callback).catch(function (err) {
+        		this.getPath();
+    		});	
 		}
 	});
+
 
 
 	
