@@ -67,28 +67,60 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  	}
  		//get location from Google API
  	this.getLocData = function(){
- 		 if(this.locTag  == ""){
- 		 	alert('Please enter a location');
- 		 	return;
- 		 }
- 		 else{
- 	 			let ctrl = this;
- 	 			ctrl.apiLocation = ctrl.locTag;
-		 				ctrl.hideLocation = true;
-	 		  			$timeout(function(){ctrl.hideHobby = false;}, 1000)	
+ 		 // if(this.locTag  == ""){
+ 		 // 	alert('Please enter a location');
+ 		 // 	return;
+ 		 // }
+ 		 if(this.locTag.length > 0){
+ 	 			// let ctrl = this;
+ 	 			// ctrl.apiLocation = ctrl.locTag;
+		 			// 	ctrl.hideLocation = true;
+	 		  // 			$timeout(function(){ctrl.hideHobby = false;}, 1000)	
+
+	 		  let ctrl = this;
+	 		  ctrl.locationList = [];
+ 	 			//console.log(ctrl.locTag)
+	 			GoogleLocation.getLocation(ctrl.locTag, function(response) { 
+	 					if(response.data.status == "ZERO_RESULTS"){
+							alert("No results. Please select a new location.")
+						}
+							else{
+					for(let i = 0; i < response.data.predictions.length; i++){
+							//let location = response.data.predictions[i];
+							let location = response.data.predictions[i].description;
+							let types = response.data.predictions[i].types;
+							ctrl.locationList.push({location: location});
+							//console.log(ctrl.locationList)
+						for(let j = 0; j < types.length; j++){
+							let singleType = types[j]				
+						if(singleType == "political"){
+							ctrl.apiLocation = location.description;
+							}
+						}
+					}
+				}
+			});	
  		}
  	}
+
+ 	this.submitLocation = function(){
+ 		 let ctrl3 = this
+ 			ctrl3.hideLocation = true;
+	 		$timeout(function(){ctrl3.hideHobby = false;}, 1000)
+ 	}
+
+
  		//get hobby input from Yelp API
  	this.getHobData = function(){
  		//ctrl2 is scope of getHobData function
  		let ctrl2 = this;
  		$timeout(function(){}, 1000)
- 			if(ctrl2.hobTag  == "" || ctrl2.apiLocation == null){
+ 			if(ctrl2.hobTag  == "" || ctrl2.locTag == null){
  		 	alert('Please enter an activity');
  		 	return;
  		 }
  		 else{
- 			YelpHobby.getHobby(ctrl2.hobTag, ctrl2.apiLocation, location, function(output){
+ 			YelpHobby.getHobby(ctrl2.hobTag, ctrl2.locTag, location, function(output){
  				if(output.businesses.length == 0){
  					alert('No results found!')
  					ctrl2.getPath();
@@ -101,32 +133,32 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  			});
  		}
 	};
-	this.getFlightCodes = function(city, callback){
-		let g = this;
-		g.flightInfoObject = [];
-		let request = {
-			term: city,
-			limit: 7,
-			size: 0,
-			key: '7bd887c51a'
-		};
-			$http({
-				method: "GET",
-				url: "https://www.air-port-codes.com/api/v1/multi",
-				params: request
-			})
-			.then(function(response){
-				for(let i = 0; i<response.data.airports.length; i++){
-					let codes = response.data.airports[i].iata;
-					let name = response.data.airports[i].name;
-					let city = response.data.airports[i].city;
-					g.flightInfoObject.push({name: name, city: city, code: codes})
-				}
-		}, function(response){
-			alert("Something went wrong! please Search again.")
-			return
-		})
-	}
+	// this.getFlightCodes = function(city, callback){
+	// 	let g = this;
+	// 	g.flightInfoObject = [];
+	// 	let request = {
+	// 		term: city,
+	// 		limit: 7,
+	// 		size: 0,
+	// 		key: '7bd887c51a'
+	// 	};
+	// 		$http({
+	// 			method: "GET",
+	// 			url: "https://www.air-port-codes.com/api/v1/multi",
+	// 			params: request
+	// 		})
+	// 		.then(function(response){
+	// 			for(let i = 0; i<response.data.airports.length; i++){
+	// 				let codes = response.data.airports[i].iata;
+	// 				let name = response.data.airports[i].name;
+	// 				let city = response.data.airports[i].city;
+	// 				g.flightInfoObject.push({name: name, city: city, code: codes})
+	// 			}
+	// 	}, function(response){
+	// 		alert("Something went wrong! please Search again.")
+	// 		return
+	// 	})
+	// }
 		//use $scope with $scope.digest
 		$scope.getFlights = function(depart, arrive, startDate){
 			let flightRequest = {
@@ -231,7 +263,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 				}
 				//for(codes in response.data.response.airports[0] ){}
 		}, function(response){
-			alert("Something went wrong! please Search again.")
+			//alert("Something went wrong! please Search again.")
 			return
 		})
 	}
@@ -243,7 +275,7 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  		}
  	}
  	this.getFinishCity = function(){
- 		if(this.finish.length > 2){
+ 		if(this.finish.length > 0){
 	 		this.getFlightCodes(this.finish, function(response){
  			})
  		}
