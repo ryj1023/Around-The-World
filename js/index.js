@@ -20,7 +20,6 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  	this.subheading = "Where would you like to go?";
  	this.subheading2 = "What's one of your favorite activities?";
  	this.resultsHeading = "Here are some of the best locations"; 
- 	this.footer = "Check out some of the best locations based on your interests";
  	this.hideLocation = false;
  	this.hideHobby = true;
  	this.showResults = false;

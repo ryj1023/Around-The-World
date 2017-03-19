@@ -270,16 +270,15 @@ body {
 .footer {
   position: absolute;
   z-index: 0;
-  margin-top: 25%;
+  margin-top: 40%;
   background-color: #E64A19;
-  height: 410px;
-  min-height: 410px;
+  height: 50%;
   width: 100%;
 }
 .footer h1 {
   color: #FFE0B2;
   font-size: 40px;
-  padding-top: 250px;
+  padding-top: 15%;
   text-align: center;
 }
 .tickets {
