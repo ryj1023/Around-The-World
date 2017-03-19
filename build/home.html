@@ -22,17 +22,17 @@
     <form class="flight-input">
       <input class="text" list="airportsDepart" ng-model="vm.start" ng-change="vm.getStartCity()" placeholder="Airport depart code" size="5" id='query4'>
       <datalist id="airportsDepart">
-        <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.name}}">
-          code: {{airports.code}}
+        <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.code}}">
+          airport: {{airports.name}}
       </datalist>
       <input class="text" list="airportsArrive" ng-model="vm.finish" ng-change="vm.getFinishCity()" placeholder="Airport arrive code" size="5" id='query4'>
       <datalist id="airportsArrive">
-      <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.name}}"> code: {{airports.code}}
+      <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.code}}"> airport: {{airports.name}}
       </datalist>
       <button id="flights-button" ng-click="vm.getDate()">Check Flights</button>
     </form>
     <p class="date-text"> Select a flight date:</p>
-    <input type="date" id="startDate" value="2016-09-09">
+    <input type="date" id="startDate">
     <a class="new-search" ng-click="vm.getPath()" ng-hide="hideNew">New Search</a>
     <a class="back" ng-show="vm.backButton" ng-click="vm.goBack()">Back</a>
     <div class="row" ng-hide="vm.hideRow" ng-repeat="places in vm.placesArray">

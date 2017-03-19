@@ -44,7 +44,7 @@ angular.module('services', [])
 })
 //Yelp API Service
 .service("YelpHobby", function($http){
-	this.getHobby = function(hobby, location, callback){
+	this.getHobby = function(hobby, destination, location, callback){
 		let method = "GET";
 		let url = "https://api.yelp.com/v2/search";
 		let params = {
@@ -55,7 +55,7 @@ angular.module('services', [])
 			oauth_timestamp: Math.floor(new Date().getTime()/1000),
 			oauth_nonce: "PLAINTEXT",
 			term: hobby,
-			location: location,
+			location: destination,
 			limit: 10
 		};
 		//oauth signiture info
@@ -63,9 +63,12 @@ angular.module('services', [])
 		let tokenSecret = 'KxVMZbqVXvuTTHY-4MCX1HOdJzw';
 		let encodedSignature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, {encodeSignature: false});
 		params["oauth_signature"] = encodedSignature;	
-		$http.jsonp(url, {params: params}).success(callback).catch(function (err) {
-        		this.getPath();
-    		});	
+		$http.jsonp(url, {params: params}).success(callback)
+		.catch(function (err) {
+				alert('No results found, Please select a different location or activity');
+				location.reload();
+    		})
+	
 		}
 	});
 

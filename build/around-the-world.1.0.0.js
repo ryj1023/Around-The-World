@@ -130,14 +130,14 @@
 		};
 		//get hobby input from Yelp API
 		this.getHobData = function () {
+			//ctrl2 is scope of getHobData function
 			var ctrl2 = this;
 			$timeout(function () {}, 1000);
-			if (ctrl2.hobTag == "" || this.apiLocation == null) {
+			if (ctrl2.hobTag == "" || ctrl2.apiLocation == null) {
 				alert('Please enter an activity');
 				return;
 			} else {
-				YelpHobby.getHobby(ctrl2.hobTag, this.apiLocation, function (output) {
-					console.log(output);
+				YelpHobby.getHobby(ctrl2.hobTag, ctrl2.apiLocation, location, function (output) {
 					if (output.businesses.length == 0) {
 						alert('No results found!');
 						ctrl2.getPath();
@@ -253,6 +253,42 @@
 				this.backButton = true;
 				var ctrl4 = this;
 				$scope.getFlights(ctrl4.start, ctrl4.finish, ctrl4.startDate);
+			}
+		};
+	
+		this.getFlightCodes = function (city, callback) {
+			var g = this;
+			g.flightInfoObject = [];
+			var request = {
+				query: city,
+				api_key: 'f35b741a-67a7-4aa5-8890-4e6bf123bab0'
+			};
+			$http({
+				method: "GET",
+				url: "https://crossorigin.me/https://iatacodes.org/api/v6/autocomplete",
+				params: request
+			}).then(function (response) {
+				for (var i = 0; i < response.data.response.airports.length; i++) {
+					var code = response.data.response.airports[i].code;
+					var name = response.data.response.airports[i].name;
+					var country = response.data.response.airports[i].country_name;
+					g.flightInfoObject.push({ name: name, country: country, code: code });
+				}
+				//for(codes in response.data.response.airports[0] ){}
+			}, function (response) {
+				alert("Something went wrong! please Search again.");
+				return;
+			});
+		};
+	
+		this.getStartCity = function () {
+			if (this.start.length > 2) {
+				this.getFlightCodes(this.start, function (response) {});
+			}
+		};
+		this.getFinishCity = function () {
+			if (this.finish.length > 2) {
+				this.getFlightCodes(this.finish, function (response) {});
 			}
 		};
 	});

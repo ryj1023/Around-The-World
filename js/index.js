@@ -81,15 +81,15 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
  	}
  		//get hobby input from Yelp API
  	this.getHobData = function(){
+ 		//ctrl2 is scope of getHobData function
  		let ctrl2 = this;
  		$timeout(function(){}, 1000)
- 			if(ctrl2.hobTag  == "" || this.apiLocation == null){
+ 			if(ctrl2.hobTag  == "" || ctrl2.apiLocation == null){
  		 	alert('Please enter an activity');
  		 	return;
  		 }
  		 else{
- 			YelpHobby.getHobby(ctrl2.hobTag, this.apiLocation, function(output){
- 				console.log(output)
+ 			YelpHobby.getHobby(ctrl2.hobTag, ctrl2.apiLocation, location, function(output){
  				if(output.businesses.length == 0){
  					alert('No results found!')
  					ctrl2.getPath();
@@ -211,7 +211,47 @@ app.controller('ctrl', function($scope, $timeout, GoogleLocation, YelpHobby, $lo
 		}
 	}
 
+	this.getFlightCodes = function(city, callback){
+		let g = this;
+		g.flightInfoObject = [];
+		let request = {
+			query: city,
+			api_key: 'f35b741a-67a7-4aa5-8890-4e6bf123bab0'
+		};
+			$http({
+				method: "GET",
+				url: "https://crossorigin.me/https://iatacodes.org/api/v6/autocomplete",
+				params: request
+			})
+			.then(function(response){
+				for(let i = 0; i<response.data.response.airports.length; i++){
+					let code = response.data.response.airports[i].code;
+					let name = response.data.response.airports[i].name;
+					let country = response.data.response.airports[i].country_name;
+					g.flightInfoObject.push({name: name, country: country, code: code})
+				}
+				//for(codes in response.data.response.airports[0] ){}
+		}, function(response){
+			alert("Something went wrong! please Search again.")
+			return
+		})
+	}
+
+	this.getStartCity = function(){
+	 		if(this.start.length > 2){
+		 		this.getFlightCodes(this.start, function(response){
+	 		})
+ 		}
+ 	}
+ 	this.getFinishCity = function(){
+ 		if(this.finish.length > 2){
+	 		this.getFlightCodes(this.finish, function(response){
+ 			})
+ 		}
+ 	}
+
 })
+
 
 
 
