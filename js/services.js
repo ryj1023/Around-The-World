@@ -15,7 +15,6 @@ angular.module('services', [])
 			let x2js = new X2JS()
 			callBack(response);
 		}, function(response){
-			//alert("Something went wrong! please Search again.")
 			return
 		})
 	}

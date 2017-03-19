@@ -99,7 +99,6 @@
 				this.getFlightId();
 			}
 		};
-	
 		this.goBack = function () {
 			this.hideRow = false;
 			this.showFlights = false;
@@ -113,20 +112,10 @@
 		this.getLocData = function () {
 			var _this = this;
 	
-			// if(this.locTag  == ""){
-			// 	alert('Please enter a location');
-			// 	return;
-			// }
 			if (this.locTag.length > 0) {
 				(function () {
-					// let ctrl = this;
-					// ctrl.apiLocation = ctrl.locTag;
-					// 	ctrl.hideLocation = true;
-					// 			$timeout(function(){ctrl.hideHobby = false;}, 1000)	
-	
 					var ctrl = _this;
 					ctrl.locationList = [];
-					//console.log(ctrl.locTag)
 					GoogleLocation.getLocation(ctrl.locTag, function (response) {
 						if (response.data.status == "ZERO_RESULTS") {
 							alert("No results. Please select a new location.");
@@ -136,13 +125,6 @@
 								var _location = response.data.predictions[i].description;
 								var types = response.data.predictions[i].types;
 								ctrl.locationList.push({ location: _location });
-								//console.log(ctrl.locationList)
-								for (var j = 0; j < types.length; j++) {
-									var singleType = types[j];
-									if (singleType == "political") {
-										ctrl.apiLocation = _location.description;
-									}
-								}
 							}
 						}
 					});
@@ -157,7 +139,6 @@
 				ctrl3.hideHobby = false;
 			}, 1000);
 		};
-	
 		//get hobby input from Yelp API
 		this.getHobData = function () {
 			//ctrl2 is scope of getHobData function
@@ -182,32 +163,6 @@
 				});
 			}
 		};
-		// this.getFlightCodes = function(city, callback){
-		// 	let g = this;
-		// 	g.flightInfoObject = [];
-		// 	let request = {
-		// 		term: city,
-		// 		limit: 7,
-		// 		size: 0,
-		// 		key: '7bd887c51a'
-		// 	};
-		// 		$http({
-		// 			method: "GET",
-		// 			url: "https://www.air-port-codes.com/api/v1/multi",
-		// 			params: request
-		// 		})
-		// 		.then(function(response){
-		// 			for(let i = 0; i<response.data.airports.length; i++){
-		// 				let codes = response.data.airports[i].iata;
-		// 				let name = response.data.airports[i].name;
-		// 				let city = response.data.airports[i].city;
-		// 				g.flightInfoObject.push({name: name, city: city, code: codes})
-		// 			}
-		// 	}, function(response){
-		// 		alert("Something went wrong! please Search again.")
-		// 		return
-		// 	})
-		// }
 		//use $scope with $scope.digest
 		$scope.getFlights = function (depart, arrive, startDate) {
 			var flightRequest = {
@@ -236,7 +191,6 @@
 				dataType: 'json',
 				data: JSON.stringify(flightRequest),
 				success: function success(data) {
-					console.log(data);
 					var tripData = data.trips.data;
 					var tripOptions = data.trips.tripOption;
 					$scope.tripReturn = [];
@@ -286,7 +240,6 @@
 				$scope.getFlights(ctrl4.start, ctrl4.finish, ctrl4.startDate);
 			}
 		};
-	
 		this.getFlightCodes = function (city, callback) {
 			var g = this;
 			g.flightInfoObject = [];
@@ -305,9 +258,7 @@
 					var country = response.data.response.airports[i].country_name;
 					g.flightInfoObject.push({ name: name, country: country, code: code });
 				}
-				//for(codes in response.data.response.airports[0] ){}
 			}, function (response) {
-				//alert("Something went wrong! please Search again.")
 				return;
 			});
 		};
