@@ -1,0 +1,53 @@
+<user-list></user-list>
+
+<section>
+	<div class="container" ng-controller="ctrl as vm">
+  <div class="results" ng-show="vm.showResults">
+    <h2>{{vm.resultsHeading}}</h2>
+    <form class="flight-input">
+      <input class="text" list="airportsDepart" ng-model="vm.start" ng-change="vm.getStartCity()" placeholder="Airport depart code" size="5" id='query4'>
+      <datalist id="airportsDepart">
+        <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.code}}">
+          airport: {{airports.name}}
+      </datalist>
+      <input class="text" list="airportsArrive" ng-model="vm.finish" ng-change="vm.getFinishCity()" placeholder="Airport arrive code" size="5" id='query4'>
+      <datalist id="airportsArrive">
+      <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.code}}"> airport: {{airports.name}}
+      </datalist>
+      <button id="flight-button" class="btn btn-danger btn-lg" style="margin-left: 1.5%; background-color: #E64A19" ng-click="vm.getDate()">Check Flights</button>
+    </form>
+    <p class="date-text"> Select a flight date:</p>
+    <input type="date" id="startDate">
+    <a class="btn btn-danger btn-lg" ng-click="vm.getPath()" style="float: right;
+    margin-right: 2%; background-color: #E64A19" ng-hide="hideNew">New Search</a>
+    <a class="btn btn-danger btn-md" style="background-color: #E64A19" ng-show="vm.backButton" ng-click="vm.goBack()">Back</a>
+    <div class="row" ng-hide="vm.hideRow" ng-repeat="places in vm.placesArray">
+    <a class="links" href={{places.url}} target="_blank">{{places.name}}</a>
+    <p class="address" ng-repeat="address in places.location.display_address">{{address}}</p>   
+    <p class="description">{{places.snippet_text}}</p>
+    <br />  
+    <img class="rating" ng-src="{{places.rating_img_url_large}}"{{places.rating_img_url_large}}>
+    <img class="images" ng-src=" {{places.image_url}} " {{places.image_url}}>
+    </div>
+    <div id="flight-info" ng-show="vm.showFlights" ng-repeat="flight in tripReturn">
+    <ul class="tickets">
+    <span class="flight-text"><b>Price:</b> ${{flight.salesTotal}}</span><br />
+    <span><b>Duration:</b> {{flight.duration}} minutes</span><br />
+    <div ng-repeat="segment in flight.segment">
+    <span><b>Airline:</b> {{segment.carrier}}</span><br /> 
+    <span><b>Flight Number:</b> {{segment.flightNumber}}</span><br />
+    <span><b>Origin:</b> {{segment.origin}} {{segment.departureTime | date :  "medium"}}</span><br />
+    <span><b>Destination:</b> {{segment.destination}} {{segment.arrivalTime | date :  "medium"}}</span>
+    </div>        
+    </ul>
+    </div>
+  </div>
+  <div class="header">
+  </div>
+  </div>
+</div>
+  <div class="footer">
+  <h1>Check out some of the best locations based on your interests</h1>
+
+	
+</section>

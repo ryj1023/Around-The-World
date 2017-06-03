@@ -1,0 +1,12 @@
+<section class=sign-in-container>
+		<form id="sign-in-form" onsubmit="return false">
+		<button ng-click="$ctrl.login()" ng-show="!$ctrl.showLogout">Sign In</button>
+		<button ng-hide="!$ctrl.showLogout" ng-click="$ctrl.logout()" >Sign Out</button>
+		<button ng-click="$ctrl.getMessage()" >Get Message</button>
+		<button ng-click="$ctrl.getSecretMessage()" >Get Secret Message</button>
+		<button ng-click="$ctrl.saveFlights($ctrl.user)" >Save Flights</button>
+	</form>
+
+	<h1>{{$ctrl.user.email}}</h1>
+	<h1>{{$ctrl.message}}</h1>
+</section>

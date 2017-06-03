@@ -1,11 +1,15 @@
+<user-list></user-list>
 <div class="container" ng-controller="ctrl as vm">
   <div class="first-input" ng-hide="vm.hideLocation">
     <h1>{{vm.heading}}</h1>
     <hr />
     <h2>{{vm.subheading}}</h2>
-    <form class="location-input">
-      <input class="text" type="text" ng-model=vm.locTag placeholder="Enter a location" size="20" id='query'>
-      <input  class="button" type="submit" onsubmit="return false" ng-click=" vm.getLocData();" value="GO!">
+    <form class="location-input" onsubmit="return false">
+      <input class="text" type="text" list="location" ng-model=vm.locTag ng-change="vm.getLocData()" placeholder="Enter a location" size="20" id='query'>
+        <datalist id="location">
+        <option ng-repeat="location in vm.locationList" value="{{location.location}}">
+      </datalist>
+      <input  class="btn btn-danger btn-lg" style="background-color: #E64A19" type="submit" onsubmit="return false" ng-click=" vm.submitLocation();" value="GO!">
     </form>
   </div>
   <div class="second-input" ng-hide="vm.hideHobby">
@@ -14,7 +18,7 @@
     <h2>{{vm.subheading2}}</h2>
     <form class="location-input" href="#home" onsubmit="return false">
       <input class="text" ng-model="vm.hobTag" type="text" placeholder="Enter a hobby" size="20" id='query2'>
-      <input class="button" type="submit" ng-click=" setTimeout(vm.getHobData, 3000);vm.getHobData(); " value="GO!">
+      <input class="btn btn-danger btn-lg" style="background-color: #E64A19"  type="submit" ng-click=" setTimeout(vm.getHobData, 3000);vm.getHobData(); " value="GO!">
     </form>
   </div>
   <div class="results" ng-show="vm.showResults">
@@ -22,24 +26,25 @@
     <form class="flight-input">
       <input class="text" list="airportsDepart" ng-model="vm.start" ng-change="vm.getStartCity()" placeholder="Airport depart code" size="5" id='query4'>
       <datalist id="airportsDepart">
-        <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.name}}">
-          code: {{airports.code}}
+        <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.code}}">
+          airport: {{airports.name}}
       </datalist>
       <input class="text" list="airportsArrive" ng-model="vm.finish" ng-change="vm.getFinishCity()" placeholder="Airport arrive code" size="5" id='query4'>
       <datalist id="airportsArrive">
-      <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.name}}"> code: {{airports.code}}
+      <option ng-repeat="airports in vm.flightInfoObject" value="{{airports.code}}"> airport: {{airports.name}}
       </datalist>
-      <button id="flights-button" ng-click="vm.getDate()">Check Flights</button>
+      <button id="flight-button" class="btn btn-danger btn-lg" style="margin-left: 1.5%; background-color: #E64A19" ng-click="vm.getDate()">Check Flights</button>
     </form>
     <p class="date-text"> Select a flight date:</p>
-    <input type="date" id="startDate" value="2016-09-09">
-    <a class="new-search" ng-click="vm.getPath()" ng-hide="hideNew">New Search</a>
-    <a class="back" ng-show="vm.backButton" ng-click="vm.goBack()">Back</a>
+    <input type="date" id="startDate">
+    <a class="btn btn-danger btn-lg" ng-click="vm.getPath()" style="float: right;
+    margin-right: 2%; background-color: #E64A19" ng-hide="hideNew">New Search</a>
+    <a class="btn btn-danger btn-md" style="background-color: #E64A19" ng-show="vm.backButton" ng-click="vm.goBack()">Back</a>
     <div class="row" ng-hide="vm.hideRow" ng-repeat="places in vm.placesArray">
     <a class="links" href={{places.url}} target="_blank">{{places.name}}</a>
-    <p class="address" ng-repeat="address in places.location.display_address">{{address}}</p>		
+    <p class="address" ng-repeat="address in places.location.display_address">{{address}}</p>   
     <p class="description">{{places.snippet_text}}</p>
-    <br />	
+    <br />  
     <img class="rating" ng-src="{{places.rating_img_url_large}}"{{places.rating_img_url_large}}>
     <img class="images" ng-src=" {{places.image_url}} " {{places.image_url}}>
     </div>
@@ -52,15 +57,15 @@
     <span><b>Flight Number:</b> {{segment.flightNumber}}</span><br />
     <span><b>Origin:</b> {{segment.origin}} {{segment.departureTime | date :  "medium"}}</span><br />
     <span><b>Destination:</b> {{segment.destination}} {{segment.arrivalTime | date :  "medium"}}</span>
-    </div>				
+    </div>        
     </ul>
     </div>
   </div>
   <div class="header">
   </div>
-  <div class="footer">
-  <h1>{{vm.footer}}</h1>
   </div>
 </div>
+  <div class="footer">
+  <h1>Check out some of the best locations based on your interests</h1>
 					
 							
